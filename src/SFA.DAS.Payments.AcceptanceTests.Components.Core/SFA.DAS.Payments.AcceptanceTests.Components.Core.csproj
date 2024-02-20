@@ -62,6 +62,9 @@
     <Reference Include="nunit.framework, Version=3.11.0.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
       <HintPath>..\packages\NUnit.3.11.0\lib\net45\nunit.framework.dll</HintPath>
     </Reference>
+    <Reference Include="SFA.DAS.Payments.Monitoring.Jobs.Data">
+      <HintPath>C:\Users\OwenCampbell\.nuget\packages\sfa.das.payments.monitoring.jobs.data\1.1.1\lib\netstandard2.0\SFA.DAS.Payments.Monitoring.Jobs.Data.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
@@ -97,14 +100,6 @@
     <ProjectReference Include="..\SFA.DAS.Payments.AcceptanceTests.Core\SFA.DAS.Payments.AcceptanceTests.Core.csproj">
       <Project>{0f0beb68-7f9f-4d39-b85a-3fe7701bb6cc}</Project>
       <Name>SFA.DAS.Payments.AcceptanceTests.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SFA.DAS.Payments.Monitoring.Jobs.Data\SFA.DAS.Payments.Monitoring.Jobs.Data.csproj">
-      <Project>{d9849b05-c642-48f7-aa6d-fa917257ae45}</Project>
-      <Name>SFA.DAS.Payments.Monitoring.Jobs.Data</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SFA.DAS.Payments.Monitoring.Jobs.Messages\SFA.DAS.Payments.Monitoring.Jobs.Messages.csproj">
-      <Project>{9274ABB3-9F30-4320-A111-17BA07DBF568}</Project>
-      <Name>SFA.DAS.Payments.Monitoring.Jobs.Messages</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

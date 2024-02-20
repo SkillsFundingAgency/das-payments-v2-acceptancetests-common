@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using Autofac;
+﻿using Autofac;
 using SFA.DAS.Payments.AcceptanceTests.Core.Infrastructure;
 using SFA.DAS.Payments.Monitoring.Jobs.Data;
 using TechTalk.SpecFlow;

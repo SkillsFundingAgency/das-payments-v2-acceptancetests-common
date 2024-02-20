@@ -216,26 +216,20 @@
     <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="NServiceBus.Azure.Transports.WindowsAzureServiceBus, Version=9.0.0.0, Culture=neutral, PublicKeyToken=9fc386479f8a226c, processorArchitecture=MSIL">
+    <Reference Include="NServiceBus.Azure.Transports.WindowsAzureServiceBus">
       <HintPath>..\packages\NServiceBus.Azure.Transports.WindowsAzureServiceBus.9.0.3\lib\net46\NServiceBus.Azure.Transports.WindowsAzureServiceBus.dll</HintPath>
     </Reference>
-    <Reference Include="NServiceBus.Callbacks, Version=3.0.0.0, Culture=neutral, PublicKeyToken=9fc386479f8a226c, processorArchitecture=MSIL">
-      <HintPath>..\packages\NServiceBus.Callbacks.3.0.0\lib\net452\NServiceBus.Callbacks.dll</HintPath>
-    </Reference>
-    <Reference Include="NServiceBus.Core, Version=7.0.0.0, Culture=neutral, PublicKeyToken=9fc386479f8a226c, processorArchitecture=MSIL">
+    <Reference Include="NServiceBus.Core">
       <HintPath>..\packages\NServiceBus.7.1.5\lib\net452\NServiceBus.Core.dll</HintPath>
     </Reference>
-    <Reference Include="NServiceBus.Newtonsoft.Json, Version=2.0.0.0, Culture=neutral, PublicKeyToken=9fc386479f8a226c, processorArchitecture=MSIL">
-      <HintPath>..\packages\NServiceBus.Newtonsoft.Json.2.1.0\lib\net452\NServiceBus.Newtonsoft.Json.dll</HintPath>
+    <Reference Include="NServiceBus.Newtonsoft.Json">
+      <HintPath>C:\Users\OwenCampbell\.nuget\packages\nservicebus.newtonsoft.json\2.1.0\lib\netstandard2.0\NServiceBus.Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="NServiceBus.ObjectBuilder.Autofac, Version=7.0.0.0, Culture=neutral, PublicKeyToken=9fc386479f8a226c, processorArchitecture=MSIL">
-      <HintPath>..\packages\NServiceBus.Autofac.7.0.0\lib\net452\NServiceBus.ObjectBuilder.Autofac.dll</HintPath>
+    <Reference Include="NServiceBus.ObjectBuilder.Autofac">
+      <HintPath>C:\Users\OwenCampbell\.nuget\packages\nservicebus.autofac\7.0.0\lib\netstandard2.0\NServiceBus.ObjectBuilder.Autofac.dll</HintPath>
     </Reference>
-    <Reference Include="NServiceBus.Persistence.AzureStorage, Version=2.0.0.0, Culture=neutral, PublicKeyToken=9fc386479f8a226c, processorArchitecture=MSIL">
-      <HintPath>..\packages\NServiceBus.Persistence.AzureStorage.2.2.0\lib\net452\NServiceBus.Persistence.AzureStorage.dll</HintPath>
-    </Reference>
-    <Reference Include="NServiceBus.Transport.AzureServiceBus, Version=1.0.0.0, Culture=neutral, PublicKeyToken=9fc386479f8a226c, processorArchitecture=MSIL">
-      <HintPath>..\packages\NServiceBus.Transport.AzureServiceBus.1.0.0\lib\net461\NServiceBus.Transport.AzureServiceBus.dll</HintPath>
+    <Reference Include="NServiceBus.Persistence.AzureStorage">
+      <HintPath>C:\Users\OwenCampbell\.nuget\packages\nservicebus.persistence.azurestorage\2.2.0\lib\netstandard2.0\NServiceBus.Persistence.AzureStorage.dll</HintPath>
     </Reference>
     <Reference Include="nunit.framework, Version=3.11.0.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
       <HintPath>..\packages\NUnit.3.11.0\lib\net45\nunit.framework.dll</HintPath>
