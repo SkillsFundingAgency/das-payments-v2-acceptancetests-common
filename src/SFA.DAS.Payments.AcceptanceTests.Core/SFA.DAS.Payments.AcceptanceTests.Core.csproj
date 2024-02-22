@@ -223,13 +223,13 @@
       <HintPath>..\packages\NServiceBus.7.1.5\lib\net452\NServiceBus.Core.dll</HintPath>
     </Reference>
     <Reference Include="NServiceBus.Newtonsoft.Json">
-      <HintPath>C:\Users\OwenCampbell\.nuget\packages\nservicebus.newtonsoft.json\2.1.0\lib\netstandard2.0\NServiceBus.Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\..\..\..\..\Users\LiamWright\.nuget\packages\nservicebus.newtonsoft.json\2.1.0\lib\netstandard2.0\NServiceBus.Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="NServiceBus.ObjectBuilder.Autofac">
-      <HintPath>C:\Users\OwenCampbell\.nuget\packages\nservicebus.autofac\7.0.0\lib\netstandard2.0\NServiceBus.ObjectBuilder.Autofac.dll</HintPath>
+      <HintPath>..\..\..\..\..\Users\LiamWright\.nuget\packages\nservicebus.autofac\7.0.0\lib\netstandard2.0\NServiceBus.ObjectBuilder.Autofac.dll</HintPath>
     </Reference>
     <Reference Include="NServiceBus.Persistence.AzureStorage">
-      <HintPath>C:\Users\OwenCampbell\.nuget\packages\nservicebus.persistence.azurestorage\2.2.0\lib\netstandard2.0\NServiceBus.Persistence.AzureStorage.dll</HintPath>
+      <HintPath>..\..\..\..\..\Users\LiamWright\.nuget\packages\nservicebus.persistence.azurestorage\2.2.0\lib\netstandard2.0\NServiceBus.Persistence.AzureStorage.dll</HintPath>
     </Reference>
     <Reference Include="nunit.framework, Version=3.11.0.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
       <HintPath>..\packages\NUnit.3.11.0\lib\net45\nunit.framework.dll</HintPath>
