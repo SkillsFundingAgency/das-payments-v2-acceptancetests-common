@@ -3,12 +3,17 @@ parameters:
 jobs:
 - job: CodeBuild
   pool:
-    name: SLD Build pool
+    name: DCT Build Pool
   variables:
   - group: BUILD Management Resources
   steps:
   - template: /azure-pipelines-templates/build/step/gitversion.yml
 
+  - task: DotNetCoreInstaller@0
+    displayName: 'Use .NET Core sdk 2.2.106'
+    inputs:
+      version: 2.2.106
+      
   - task: DotNetCoreCLI@2
     displayName: Restore 
     inputs:
@@ -32,6 +37,7 @@ jobs:
     inputs:
       projects:  ${{ parameters.TargetProjects }}
       arguments: '--configuration $(buildConfiguration) --no-restore'
+      version: 7.x
 
   # Publish SFA.DAS.Payments.AcceptanceTests.Components.Core
   - task: DotNetCoreCLI@2
