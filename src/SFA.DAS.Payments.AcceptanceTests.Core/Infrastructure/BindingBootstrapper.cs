@@ -2,6 +2,8 @@ using System;
 using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
+using System.Security.Cryptography;
+using System.Text;
 using System.Threading.Tasks;
 using Autofac;
 using ESFA.DC.ILR.TestDataGenerator.Api;
@@ -22,18 +24,17 @@ using Polly;
 using Polly.Registry;
 using SFA.DAS.Payments.AcceptanceTests.Core.Automation;
 using SFA.DAS.Payments.AcceptanceTests.Core.Data;
-using SFA.DAS.Payments.AcceptanceTests.Services;
+using SFA.DAS.Payments.AcceptanceTests.Core.Services;
 using SFA.DAS.Payments.AcceptanceTests.Services.BespokeHttpClient;
 using SFA.DAS.Payments.AcceptanceTests.Services.Configuration;
 using SFA.DAS.Payments.AcceptanceTests.Services.Intefaces;
+using SFA.DAS.Payments.AcceptanceTests.Services.Services;
 using SFA.DAS.Payments.Messages.Common;
 using SFA.DAS.Payments.Monitoring.Jobs.Client;
 using TechTalk.SpecFlow;
 
 namespace SFA.DAS.Payments.AcceptanceTests.Core.Infrastructure
 {
-    using Services;
-
     [Binding]
     public class BindingBootstrapper : BindingsBase
     {
@@ -42,6 +43,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.Core.Infrastructure
         [BeforeTestRun(Order = -1)]
         public static void TestRunSetUp()
         {
+            const int maxEntityName = 50;
             var config = new TestsConfiguration();
             Builder = new ContainerBuilder();
             Builder.RegisterType<TestsConfiguration>().SingleInstance();
@@ -49,8 +51,10 @@ namespace SFA.DAS.Payments.AcceptanceTests.Core.Infrastructure
                 .As<IEarningsJobClient>()
                 .InstancePerLifetimeScope();
 
-            Builder.RegisterType<AzureStorageServiceConfig>().As<IAzureStorageKeyValuePersistenceServiceConfig>().InstancePerLifetimeScope();
-            Builder.RegisterType<AzureStorageKeyValuePersistenceService>().As<IStreamableKeyValuePersistenceService>().InstancePerLifetimeScope();
+            Builder.RegisterType<AzureStorageServiceConfig>().As<IAzureStorageKeyValuePersistenceServiceConfig>()
+                .InstancePerLifetimeScope();
+            Builder.RegisterType<AzureStorageKeyValuePersistenceService>().As<IStreamableKeyValuePersistenceService>()
+                .InstancePerLifetimeScope();
             Builder.RegisterType<StorageService>().As<IStorageService>().InstancePerLifetimeScope();
             Builder.RegisterType<TdgService>().As<ITdgService>().InstancePerLifetimeScope();
             Builder.RegisterType<PaymentsHelper>().As<IPaymentsHelper>().InstancePerLifetimeScope();
@@ -81,7 +85,8 @@ namespace SFA.DAS.Payments.AcceptanceTests.Core.Infrastructure
                 return new SubmissionDataContext(configHelper.PaymentsConnectionString);
             }).As<SubmissionDataContext>().InstancePerDependency();
 
-            Builder.Register(c => new TestSession(c.Resolve<IUkprnService>(), c.Resolve<IUlnService>())).InstancePerLifetimeScope();
+            Builder.Register(c => new TestSession(c.Resolve<IUkprnService>(), c.Resolve<IUlnService>()))
+                .InstancePerLifetimeScope();
 
             Builder.Register(context =>
                 {
@@ -124,22 +129,32 @@ namespace SFA.DAS.Payments.AcceptanceTests.Core.Infrastructure
                 .As<TransportExtensions<AzureServiceBusTransport>>()
                 .SingleInstance();
 
-            transportConfig
-                .UseForwardingTopology()
-                .ConnectionString(config.ServiceBusConnectionString)
-                .Transactions(TransportTransactionMode.ReceiveOnly)
-                .Queues()
-                .DefaultMessageTimeToLive(config.DefaultMessageTimeToLive);
+            //Uses built in ForwardingTopology
+            transportConfig.ConnectionString(config.ServiceBusConnectionString)
+                .Transactions(TransportTransactionMode.ReceiveOnly);
 
-            var sanitization = transportConfig.Sanitization();
-            var strategy = sanitization.UseStrategy<ValidateAndHashIfNeeded>();
-            strategy.RuleNameSanitization(
-                ruleNameSanitizer: ruleName => ruleName.Split('.').LastOrDefault() ?? ruleName);
+            //This replaces ValidateAndHashIfNeeded flag.
+            transportConfig.SubscriptionNameShortener(ruleName => ruleName.Split('.').LastOrDefault() ?? ruleName);
+            transportConfig.SubscriptionNameShortener(n => n.Length > maxEntityName ? HashName(n) : n);
+            transportConfig.RuleNameShortener(
+                ruleName => ruleName.Split('.').LastOrDefault() ?? ruleName);
+
+
             EndpointConfiguration.UseSerialization<NewtonsoftSerializer>();
             EndpointConfiguration.EnableInstallers();
-
         }
 
+
+        private static string HashName(string input)
+        {
+            var inputBytes = Encoding.Default.GetBytes(input);
+            // use MD5 hash to get a 16-byte hash of the string
+            using (var provider = new MD5CryptoServiceProvider())
+            {
+                var hashBytes = provider.ComputeHash(inputBytes);
+                return new Guid(hashBytes).ToString();
+            }
+        }
 
 
         [BeforeTestRun(Order = 50)]
@@ -157,13 +172,15 @@ namespace SFA.DAS.Payments.AcceptanceTests.Core.Infrastructure
                 Console.WriteLine($"'{Config.AcceptanceTestsEndpointName}' not found.");
                 return;
             }
+
             Console.WriteLine($"Now clearing queue: '{Config.AcceptanceTestsEndpointName}'");
             var stopwatch = new Stopwatch();
             stopwatch.Start();
             var messagingFactory = MessagingFactory.CreateFromConnectionString(Config.ServiceBusConnectionString);
 
 
-            var receiver = await messagingFactory.CreateMessageReceiverAsync(Config.AcceptanceTestsEndpointName, ReceiveMode.ReceiveAndDelete);
+            var receiver = await messagingFactory.CreateMessageReceiverAsync(Config.AcceptanceTestsEndpointName,
+                ReceiveMode.ReceiveAndDelete);
             while (true)
             {
                 var messages = await receiver.ReceiveBatchAsync(500, TimeSpan.FromSeconds(1));
@@ -180,7 +197,8 @@ namespace SFA.DAS.Payments.AcceptanceTests.Core.Infrastructure
                 await namespaceManager.UpdateQueueAsync(queueDescription);
             }
 
-            Console.WriteLine($"Finished purging messages from {Config.AcceptanceTestsEndpointName}. Took: {stopwatch.ElapsedMilliseconds}ms");
+            Console.WriteLine(
+                $"Finished purging messages from {Config.AcceptanceTestsEndpointName}. Took: {stopwatch.ElapsedMilliseconds}ms");
         }
 
         [BeforeTestRun(Order = 99)]
@@ -204,7 +222,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.Core.Infrastructure
         public static void DontRunIfFailedPreviousScenario(FeatureContext featureContext)
         {
             if (featureContext.ContainsKey("FailedTests") &&
-                (bool)featureContext["FailedTests"] )
+                (bool)featureContext["FailedTests"])
             {
                 Assert.Fail("Failing as previous examples of this feature have failed");
             }
