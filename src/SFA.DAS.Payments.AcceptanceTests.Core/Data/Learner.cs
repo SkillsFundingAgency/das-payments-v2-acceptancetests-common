@@ -6,8 +6,10 @@ namespace SFA.DAS.Payments.AcceptanceTests.Core.Data
     public class Learner
     {
         public long Ukprn { get; set; }
+
         [TableAliases("Learner[ ]?Reference[ ]?Number")]
         public string LearnRefNumber { get; set; }
+
         public long Uln { get; set; }
         public Course Course { get; set; }
 
@@ -18,9 +20,11 @@ namespace SFA.DAS.Payments.AcceptanceTests.Core.Data
 
         public string PostcodePrior { get; set; }
         public bool IsLevyLearner { get; set; }
+
         public override string ToString()
         {
-            return $"Learn Ref Number: [ {LearnRefNumber} ]\tUln: [ {Uln} ]\t\tLearner Identifier: [ {LearnerIdentifier} ]";
+            return
+                $"Learn Ref Number: [ {LearnRefNumber} ]\tUln: [ {Uln} ]\t\tLearner Identifier: [ {LearnerIdentifier} ]";
         }
     }
 }
