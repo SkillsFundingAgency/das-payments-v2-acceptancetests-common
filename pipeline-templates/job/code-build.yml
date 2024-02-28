@@ -27,7 +27,7 @@ jobs:
       feedsToUse: 'select'
       vstsFeed: 'dct-pkg'
   
-  - task: VSBuild@1
+  - task: MSBuild@1
     displayName: Build
     inputs:
       solution: '**\*.sln'
