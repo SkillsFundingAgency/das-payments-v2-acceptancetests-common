@@ -31,13 +31,22 @@ jobs:
       noCache: true
       feedsToUse: 'select'
       vstsFeed: 'dct-pkg'
-    
-  - task: DotNetCoreCLI@2
+  
+  - task: VSBuild@1
     displayName: Build
     inputs:
-      projects:  ${{ parameters.TargetProjects }}
-      arguments: '--configuration $(buildConfiguration) --no-restore'
-      version: 7.x
+      solution: '**\*.sln'
+      msbuildArgs: '/p:DeployOnBuild=true /p:SkipInvalidConfigurations=false /p:OutDir="$(System.DefaultWorkingDirectory)\publish_output"'
+      platform: 'Any CPU'
+      configuration: 'Release'
+
+  #- task: DotNetCoreCLI@2
+  #  displayName: Build
+  #  inputs:
+  #    projects:  ${{ parameters.TargetProjects }}
+  #    arguments: '--configuration $(buildConfiguration) --no-restore'
+  #    version: 7.x
+    
 
   # Publish SFA.DAS.Payments.AcceptanceTests.Components.Core
   - task: DotNetCoreCLI@2
