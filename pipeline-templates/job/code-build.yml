@@ -32,7 +32,7 @@ jobs:
   - task: MSBuild@1
     displayName: 'Build sln'
     inputs:
-      solution: '**/*Payments.sln'
+      solution: '**/*.sln'
       msbuildArchitecture: x64
       platform: '$(BuildPlatform)'
       configuration: '$(BuildConfiguration)'
