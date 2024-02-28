@@ -22,8 +22,8 @@ jobs:
     displayName: Restore
     inputs:
       command: restore
-      #projects: ${{ parameters.TargetProjects }}
-      projects: '**\*.sln'
+      projects: ${{ parameters.TargetProjects }}
+      #projects: '**\*.sln'
       noCache: true
       feedsToUse: 'select'
       vstsFeed: 'dct-pkg'
@@ -31,7 +31,8 @@ jobs:
   - task: MSBuild@1
     displayName: Build
     inputs:
-      solution: '**\*.sln'
+      #solution: '**\*.sln'
+      projects: ${{ parameters.TargetProjects }}
       msbuildArgs: '/p:DeployOnBuild=true /p:SkipInvalidConfigurations=false /p:OutDir="$(System.DefaultWorkingDirectory)\publish_output"'
       platform: 'Any CPU'
       configuration: 'Release'
