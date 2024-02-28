@@ -33,9 +33,6 @@ jobs:
     displayName: 'Build sln'
     inputs:
       solution: '**/*.sln'
-      msbuildArchitecture: x64
-      platform: '$(BuildPlatform)'
-      configuration: '$(BuildConfiguration)'
       msbuildArguments: '/p:version=$(Build.BuildNumber) /p:FileVersion=$(Build.BuildNumber)'
       clean: true
       maximumCpuCount: true
