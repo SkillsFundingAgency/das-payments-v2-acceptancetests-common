@@ -9,11 +9,6 @@ jobs:
   steps:
   - template: /azure-pipelines-templates/build/step/gitversion.yml
 
-  - task: DotNetCoreInstaller@0
-    displayName: 'Use .NET Core sdk 2.2.106'
-    inputs:
-      version: 2.2.106
-      
   - task: DotNetCoreCLI@2
     displayName: Restore 
     inputs:
