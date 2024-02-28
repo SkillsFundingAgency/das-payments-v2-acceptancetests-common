@@ -30,13 +30,17 @@ jobs:
       vstsFeed: 'dct-pkg'
   
   - task: MSBuild@1
-    displayName: Build
+    displayName: 'Build sln'
     inputs:
-      projects: 'src\**\*.sln'
-      #projects: ${{ parameters.TargetProjects }}
-      msbuildArgs: '/p:DeployOnBuild=true /p:SkipInvalidConfigurations=false /p:OutDir="$(System.DefaultWorkingDirectory)\publish_output"'
-      platform: 'Any CPU'
-      configuration: 'Release'
+      solution: '**/*Payments.sln'
+      msbuildArchitecture: x64
+      platform: '$(BuildPlatform)'
+      configuration: '$(BuildConfiguration)'
+      msbuildArguments: '/p:version=$(Build.BuildNumber) /p:FileVersion=$(Build.BuildNumber)'
+      clean: true
+      maximumCpuCount: true
+      logProjectEvents: true
+      createLogFile: true
 
   #- task: DotNetCoreCLI@2
   #  displayName: Build
