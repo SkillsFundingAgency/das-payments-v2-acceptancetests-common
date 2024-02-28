@@ -22,7 +22,8 @@ jobs:
     displayName: Restore
     inputs:
       command: restore
-      projects: ${{ parameters.TargetProjects }}
+      #projects: ${{ parameters.TargetProjects }}
+      projects: '**\*.sln'
       noCache: true
       feedsToUse: 'select'
       vstsFeed: 'dct-pkg'
