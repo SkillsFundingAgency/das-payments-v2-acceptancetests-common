@@ -6,9 +6,6 @@ jobs:
     name: DCT Build Pool
   variables:
   - group: BUILD Management Resources
-    solution: '**/*.sln'
-    buildPlatform: 'Any CPU'
-    buildConfiguration: 'Release'
   steps:
   - template: /azure-pipelines-templates/build/step/gitversion.yml
 
