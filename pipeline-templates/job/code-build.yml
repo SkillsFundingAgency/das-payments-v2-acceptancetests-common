@@ -14,7 +14,7 @@ jobs:
     inputs:
       command: restore
       #projects: ${{ parameters.TargetProjects }}
-      projects: 'src\**\*.sln'
+      projects: 'src\**\*.csproj'
       noCache: true
       feedsToUse: 'select'
       vstsFeed: 'dct-pkg'
@@ -24,15 +24,15 @@ jobs:
     inputs:
       command: restore
       #projects: ${{ parameters.TargetProjects }}
-      projects: 'src\**\*.sln'
+      projects: 'src\**\*.csproj'
       noCache: true
       feedsToUse: 'select'
       vstsFeed: 'dct-pkg'
   
   - task: MSBuild@1
-    displayName: 'Build sln'
+    displayName: 'Build csproj'
     inputs:
-      solution: '**/*.sln'
+      solution: '**/*.csproj'
       msbuildArguments: '/p:version=$(Build.BuildNumber) /p:FileVersion=$(Build.BuildNumber)'
       clean: true
       maximumCpuCount: true
