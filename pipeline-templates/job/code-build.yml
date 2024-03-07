@@ -47,11 +47,11 @@ jobs:
   #    logProjectEvents: true
   #    createLogFile: true
 
-  #- task: PublishBuildArtifacts@1
-  #  displayName: 'Publish artifacts'
-  #  inputs:
-  #    PathtoPublish: $(build.artifactstagingdirectory)
-  #    ArtifactName: 'PublishBuildArtifacts'
+  - task: PublishBuildArtifacts@1
+    displayName: 'Publish artifacts'
+    inputs:
+      PathtoPublish: $(build.artifactstagingdirectory)
+      ArtifactName: 'PublishBuildArtifacts'
 
 
    # Publish SFA.DAS.Payments.AcceptanceTests.Components.Core
