@@ -3,9 +3,12 @@ parameters:
 jobs:
 - job: CodeBuild
   pool:
-    name: DCT Build Pool
+    name: SLD Build pool
+    #demands: LATEST_DOTNET_VERSION
   variables:
   - group: BUILD Management Resources
+  - name: SolutionBaseName
+    value: SFA.DAS.Payments.AcceptanceTests.Common
   steps:
   - template: /azure-pipelines-templates/build/step/gitversion.yml
 
@@ -38,17 +41,6 @@ jobs:
       projects:  ${{ parameters.TargetProjects }}
       arguments: '--configuration $(buildConfiguration) --no-restore'
 
-  # Publish SFA.DAS.Payments.AcceptanceTests.Components.Core
-  - task: DotNetCoreCLI@2
-    displayName: "Publish SFA.DAS.Payments.AcceptanceTests.Components.Core"
-    inputs:
-      command: publish
-      publishWebProjects: false #set to false as this setting (which defaults to true) will parse the entire repo for web projects
-      projects: src/SFA.DAS.Payments.AcceptanceTests.Components.Core/SFA.DAS.Payments.AcceptanceTests.Components.Core.csproj
-      arguments: "-o $(build.artifactstagingdirectory)/publish -c $(BuildConfiguration) --no-restore --no-build"
-      modifyOutputPath: true
-
-  # Publish SFA.DAS.Payments.AcceptanceTests.Core
   - task: DotNetCoreCLI@2
     displayName: "Publish SFA.DAS.Payments.AcceptanceTests.Core"
     inputs:
@@ -58,17 +50,6 @@ jobs:
       arguments: "-o $(build.artifactstagingdirectory)/publish -c $(BuildConfiguration) --no-restore --no-build"
       modifyOutputPath: true
 
-  # Publish SFA.DAS.Payments.AcceptanceTests.Services
-  - task: DotNetCoreCLI@2
-    displayName: "Publish SFA.DAS.Payments.AcceptanceTests.Services"
-    inputs:
-      command: publish
-      publishWebProjects: false #set to false as this setting (which defaults to true) will parse the entire repo for web projects
-      projects: src/SFA.DAS.Payments.AcceptanceTests.Services/SFA.DAS.Payments.AcceptanceTests.Services.csproj
-      arguments: "-o $(build.artifactstagingdirectory)/publish -c $(BuildConfiguration) --no-restore --no-build"
-      modifyOutputPath: true
-
-  #Publish SFA.DAS.Payments.Tests.Core
   - task: DotNetCoreCLI@2
     displayName: "Publish SFA.DAS.Payments.Tests.Core"
     inputs:
@@ -78,11 +59,29 @@ jobs:
       arguments: "-o $(build.artifactstagingdirectory)/publish -c $(BuildConfiguration) --no-restore --no-build"
       modifyOutputPath: true
 
+  - task: DotNetCoreCLI@2
+    displayName: "Publish SFA.DAS.Payments.AcceptanceTests.Services"
+    inputs:
+      command: publish
+      publishWebProjects: false #set to false as this setting (which defaults to true) will parse the entire repo for web projects
+      projects: src/SFA.DAS.Payments.AcceptanceTests.Services/SFA.DAS.Payments.AcceptanceTests.Services.csproj
+      arguments: "-o $(build.artifactstagingdirectory)/publish -c $(BuildConfiguration) --no-restore --no-build"
+      modifyOutputPath: true
+
+  - task: DotNetCoreCLI@2
+    displayName: "Publish SFA.DAS.Payments.AcceptanceTests.Components.Core"
+    inputs:
+      command: publish
+      publishWebProjects: false #set to false as this setting (which defaults to true) will parse the entire repo for web projects
+      projects: src/SFA.DAS.Payments.AcceptanceTests.Components.Core/SFA.DAS.Payments.AcceptanceTests.Components.Core.csproj
+      arguments: "-o $(build.artifactstagingdirectory)/publish -c $(BuildConfiguration) --no-restore --no-build"
+      modifyOutputPath: true
+
   - task: CopyFiles@2
     displayName: 'Copy Files to: $(build.artifactstagingdirectory)/publish'
     inputs:
       Contents: |
-        /**
+       /**
       TargetFolder: '$(build.artifactstagingdirectory)/publish'
       OverWrite: true
 
@@ -95,7 +94,8 @@ jobs:
   - template: /azure-pipelines-templates/build/step/nuget-pack.yml
     parameters:
       DotNetStandardPackagesToPack: |
-        src/SFA.DAS.Payments.AcceptanceTests.Components.Core/SFA.DAS.Payments.AcceptanceTests.Components.Core.csproj;
-        src/SFA.DAS.Payments.AcceptanceTests.Core/SFA.DAS.Payments.AcceptanceTests.Core.csproj;
-        src/SFA.DAS.Payments.AcceptanceTests.Services/SFA.DAS.Payments.AcceptanceTests.Services.csproj;
-        src/SFA.DAS.Payments.Tests.Core/SFA.DAS.Payments.Tests.Core.csproj;
+         src/SFA.DAS.Payments.AcceptanceTests.Core/SFA.DAS.Payments.AcceptanceTests.Core.csproj;
+         src/SFA.DAS.Payments.Tests.Core/SFA.DAS.Payments.Tests.Core.csproj;
+         src/SFA.DAS.Payments.AcceptanceTests.Services/SFA.DAS.Payments.AcceptanceTests.Services.csproj;
+         src/SFA.DAS.Payments.AcceptanceTests.Components.Core/SFA.DAS.Payments.AcceptanceTests.Components.Core.csproj;
+        
