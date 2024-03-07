@@ -107,8 +107,8 @@ jobs:
     displayName: 'Publish Artifact: drop'
     inputs:
       #targetPath: $(build.artifactstagingdirectory)/publish
-      PathtoPublish: '$(Build.ArtifactStagingDirectory)/publish'
-      artifactName: drop
+      PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+      artifactName: drop-acceptancetests-common
 
   - template: /azure-pipelines-templates/build/step/nuget-pack.yml
     parameters:
