@@ -9,47 +9,38 @@ jobs:
   steps:
   - template: /azure-pipelines-templates/build/step/gitversion.yml
 
-  - task: NuGetCommand@2
-    displayName: Nuget Restore
-    inputs:
-      command: restore
-      #projects: ${{ parameters.TargetProjects }}
-      projects: 'src\**\*.sln'
-      noCache: true
-      feedsToUse: 'select'
-      vstsFeed: 'dct-pkg'
-
   - task: DotNetCoreCLI@2
-    displayName: Dotnet Restore 
+  # task: NuGetCommand@2
+    displayName: Restore
     inputs:
       command: restore
-      #projects: ${{ parameters.TargetProjects }}
-      projects: 'src\**\*.sln'
+      projects: ${{ parameters.TargetProjects }}
       noCache: true
       feedsToUse: 'select'
       vstsFeed: 'dct-pkg'
-  
-  - task: MSBuild@1
-    displayName: 'Build sln'
-    inputs:
-      solution: '**/*.sln'
-      msbuildArguments: '/p:version=$(Build.BuildNumber) /p:FileVersion=$(Build.BuildNumber)'
-      clean: true
-      maximumCpuCount: true
-      logProjectEvents: true
-      createLogFile: true
+    #  vstsFeed: '1d5deb2d-cf8b-4bb1-b147-d13bc246e3f4'
 
-  #- task: DotNetCoreCLI@2
-  #  displayName: Build
-  #  inputs:
-  #    projects:  ${{ parameters.TargetProjects }}
-  #    arguments: '--configuration $(buildConfiguration) --no-restore'
-  #    version: 7.x
+  # task: DotNetCoreCLI@2
+  - task: NuGetCommand@2
+    displayName: Restore
+    inputs:
+      command: restore
+      projects: ${{ parameters.TargetProjects }}
+      noCache: true
+      feedsToUse: 'select'
+      vstsFeed: 'dct-pkg'
+    #  vstsFeed: '1d5deb2d-cf8b-4bb1-b147-d13bc246e3f4'
     
+  - task: DotNetCoreCLI@2
+  #- task: NuGetCommand@2
+    displayName: Build
+    inputs:
+      projects:  ${{ parameters.TargetProjects }}
+      arguments: '--configuration $(buildConfiguration) --no-restore'
 
   # Publish SFA.DAS.Payments.AcceptanceTests.Components.Core
   - task: DotNetCoreCLI@2
-    displayName: "Publish SFA.DAS.Payments.Core"
+    displayName: "Publish SFA.DAS.Payments.AcceptanceTests.Components.Core"
     inputs:
       command: publish
       publishWebProjects: false #set to false as this setting (which defaults to true) will parse the entire repo for web projects
