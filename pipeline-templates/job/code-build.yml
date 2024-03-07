@@ -100,13 +100,14 @@ jobs:
     inputs:
       Contents: |
         /**
-      TargetFolder: '$(build.artifactstagingdirectory)/publish'
+      TargetFolder: '$(Build.ArtifactStagingDirectory)/publish'
       OverWrite: true
 
-  - task: PublishPipelineArtifact@1
+  - task: PublishBuildArtifacts@1
     displayName: 'Publish Artifact: drop'
     inputs:
-      targetPath: $(build.artifactstagingdirectory)/publish
+      #targetPath: $(build.artifactstagingdirectory)/publish
+      PathtoPublish: '$(Build.ArtifactStagingDirectory)/publish'
       artifactName: drop
 
   - template: /azure-pipelines-templates/build/step/nuget-pack.yml
