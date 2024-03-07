@@ -96,11 +96,11 @@ jobs:
   #     modifyOutputPath: true
 
   - task: CopyFiles@2
-    displayName: 'Copy Files to: $(build.artifactstagingdirectory)/publish'
+    displayName: 'Copy Files to: $(build.artifactstagingdirectory)'
     inputs:
       Contents: |
         /**
-      TargetFolder: '$(Build.ArtifactStagingDirectory)/publish'
+      TargetFolder: '$(Build.ArtifactStagingDirectory)'
       OverWrite: true
 
   - task: PublishBuildArtifacts@1
