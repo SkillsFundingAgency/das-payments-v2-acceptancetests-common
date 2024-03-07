@@ -14,7 +14,7 @@ jobs:
     inputs:
       command: restore
       #projects: ${{ parameters.TargetProjects }}
-      projects: 'src\**\*.csproj'
+      projects: 'src/SFA.DAS.Payments.AcceptanceTests.Core/SFA.DAS.Payments.AcceptanceTests.Core.csproj'
       noCache: true
       feedsToUse: 'select'
       vstsFeed: 'dct-pkg'
@@ -24,7 +24,7 @@ jobs:
     inputs:
       command: restore
       #projects: ${{ parameters.TargetProjects }}
-      projects: 'src\**\*.csproj'
+      projects: 'src/SFA.DAS.Payments.AcceptanceTests.Core/SFA.DAS.Payments.AcceptanceTests.Core.csproj'
       noCache: true
       feedsToUse: 'select'
       vstsFeed: 'dct-pkg'
@@ -33,7 +33,8 @@ jobs:
   #- task: NuGetCommand@2
     displayName: Build
     inputs:
-      projects:  ${{ parameters.TargetProjects }}
+      projects:  'src/SFA.DAS.Payments.AcceptanceTests.Core/SFA.DAS.Payments.AcceptanceTests.Core.csproj'
+      # projects:  ${{ parameters.TargetProjects }}
       arguments: '--configuration $(buildConfiguration) --no-restore'
   
   #- task: MSBuild@1
@@ -59,7 +60,7 @@ jobs:
     inputs:
       command: publish
       publishWebProjects: false #set to false as this setting (which defaults to true) will parse the entire repo for web projects
-      projects: src/SFA.DAS.Payments.AcceptanceTests.Components.Core/SFA.DAS.Payments.AcceptanceTests.Components.Core.csproj
+      projects: 'src/SFA.DAS.Payments.AcceptanceTests.Core/SFA.DAS.Payments.AcceptanceTests.Core.csproj'
       arguments: "-o $(build.artifactstagingdirectory)/publish -c $(BuildConfiguration) --no-restore --no-build"
       modifyOutputPath: true
 
@@ -110,7 +111,12 @@ jobs:
   - template: /azure-pipelines-templates/build/step/nuget-pack.yml
     parameters:
       DotNetStandardPackagesToPack: |
-        src/SFA.DAS.Payments.AcceptanceTests.Components.Core/SFA.DAS.Payments.AcceptanceTests.Components.Core.csproj;
         src/SFA.DAS.Payments.AcceptanceTests.Core/SFA.DAS.Payments.AcceptanceTests.Core.csproj;
-        src/SFA.DAS.Payments.AcceptanceTests.Services/SFA.DAS.Payments.AcceptanceTests.Services.csproj;
-        src/SFA.DAS.Payments.Tests.Core/SFA.DAS.Payments.Tests.Core.csproj;
+
+  # - template: /azure-pipelines-templates/build/step/nuget-pack.yml
+  #   parameters:
+  #     DotNetStandardPackagesToPack: |
+  #       src/SFA.DAS.Payments.AcceptanceTests.Components.Core/SFA.DAS.Payments.AcceptanceTests.Components.Core.csproj;
+  #       src/SFA.DAS.Payments.AcceptanceTests.Core/SFA.DAS.Payments.AcceptanceTests.Core.csproj;
+  #       src/SFA.DAS.Payments.AcceptanceTests.Services/SFA.DAS.Payments.AcceptanceTests.Services.csproj;
+  #       src/SFA.DAS.Payments.Tests.Core/SFA.DAS.Payments.Tests.Core.csproj;
