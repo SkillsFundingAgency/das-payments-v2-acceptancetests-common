@@ -3,7 +3,7 @@ parameters:
 jobs:
 - job: CodeBuild
   pool:
-    name: DCT Build Pool
+    name: SLD Build Pool
   variables:
   - group: BUILD Management Resources
   steps:
@@ -46,15 +46,15 @@ jobs:
       ArtifactName: 'PublishBuildArtifacts'
 
 
-  # # Publish SFA.DAS.Payments.AcceptanceTests.Components.Core
-  # - task: DotNetCoreCLI@2
-  #   displayName: "Publish SFA.DAS.Payments.Core"
-  #   inputs:
-  #     command: publish
-  #     publishWebProjects: false #set to false as this setting (which defaults to true) will parse the entire repo for web projects
-  #     projects: src/SFA.DAS.Payments.AcceptanceTests.Components.Core/SFA.DAS.Payments.AcceptanceTests.Components.Core.csproj
-  #     arguments: "-o $(build.artifactstagingdirectory)/publish -c $(BuildConfiguration) --no-restore --no-build"
-  #     modifyOutputPath: true
+   # Publish SFA.DAS.Payments.AcceptanceTests.Components.Core
+   - task: DotNetCoreCLI@2
+     displayName: "Publish SFA.DAS.Payments.Core"
+     inputs:
+       command: publish
+       publishWebProjects: false #set to false as this setting (which defaults to true) will parse the entire repo for web projects
+       projects: src/SFA.DAS.Payments.AcceptanceTests.Components.Core/SFA.DAS.Payments.AcceptanceTests.Components.Core.csproj
+       arguments: "-o $(build.artifactstagingdirectory)/publish -c $(BuildConfiguration) --no-restore --no-build"
+       modifyOutputPath: true
 
   # # Publish SFA.DAS.Payments.AcceptanceTests.Core
   # - task: DotNetCoreCLI@2
