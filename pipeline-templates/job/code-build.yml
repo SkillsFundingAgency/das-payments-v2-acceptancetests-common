@@ -41,7 +41,7 @@ jobs:
     displayName: 'Build csproj'
     inputs:
       solution: '**/*.csproj'
-      msbuildArguments: '/p:version=$(Build.BuildNumber) /p:FileVersion=$(Build.BuildNumber)'
+      msbuildArguments: '/p:version=$(Build.BuildNumber) /p:FileVersion=$(Build.BuildNumber) /t:Publish /p:OutputPath=$(build.artifactstagingdirectory)/publish'
       clean: true
       maximumCpuCount: true
       logProjectEvents: true
