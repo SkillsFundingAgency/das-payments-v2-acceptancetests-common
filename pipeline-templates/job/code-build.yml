@@ -56,6 +56,7 @@ jobs:
       projects: src/SFA.DAS.Payments.AcceptanceTests.Core/SFA.DAS.Payments.AcceptanceTests.Core.csproj
       arguments: "-o $(build.artifactstagingdirectory)/publish -c $(BuildConfiguration) --no-restore --no-build"
       modifyOutputPath: true
+      zipAfterPublish: false
       
 
   # # Publish SFA.DAS.Payments.AcceptanceTests.Core
@@ -93,7 +94,7 @@ jobs:
     inputs:
       Contents: |
         /**
-      TargetFolder: '$(Build.ArtifactStagingDirectory)/publish'
+      TargetFolder: '$(build.artifactstagingdirectory)/publish'
       OverWrite: true
 
   - task: PublishPipelineArtifact@1
