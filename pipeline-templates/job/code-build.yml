@@ -28,33 +28,40 @@ jobs:
       noCache: true
       feedsToUse: 'select'
       vstsFeed: 'dct-pkg'
-  
-  - task: MSBuild@1
-    displayName: 'Build csproj'
-    inputs:
-      solution: '**/*.csproj'
-      msbuildArguments: '/p:version=$(Build.BuildNumber) /p:FileVersion=$(Build.BuildNumber)'
-      clean: true
-      maximumCpuCount: true
-      logProjectEvents: true
-      createLogFile: true
 
-  - task: PublishBuildArtifacts@1
-    displayName: 'Publish artifacts'
+  - task: DotNetCoreCLI@2
+  #- task: NuGetCommand@2
+    displayName: Build
     inputs:
-      PathtoPublish: $(build.artifactstagingdirectory)
-      ArtifactName: 'PublishBuildArtifacts'
+      projects:  ${{ parameters.TargetProjects }}
+      arguments: '--configuration $(buildConfiguration) --no-restore'
+  
+  #- task: MSBuild@1
+  #  displayName: 'Build csproj'
+  #  inputs:
+  #    solution: '**/*.csproj'
+  #    msbuildArguments: '/p:version=$(Build.BuildNumber) /p:FileVersion=$(Build.BuildNumber)'
+  #    clean: true
+  #    maximumCpuCount: true
+  #    logProjectEvents: true
+  #    createLogFile: true
+
+  #- task: PublishBuildArtifacts@1
+  #  displayName: 'Publish artifacts'
+  #  inputs:
+  #    PathtoPublish: $(build.artifactstagingdirectory)
+  #    ArtifactName: 'PublishBuildArtifacts'
 
 
    # Publish SFA.DAS.Payments.AcceptanceTests.Components.Core
-  #- task: DotNetCoreCLI@2
-  #  displayName: "Publish SFA.DAS.Payments.Core"
-  #  inputs:
-  #    command: publish
-  #    publishWebProjects: false #set to false as this setting (which defaults to true) will parse the entire repo for web projects
-  #    projects: src/SFA.DAS.Payments.AcceptanceTests.Components.Core/SFA.DAS.Payments.AcceptanceTests.Components.Core.csproj
-  #    arguments: "-o $(build.artifactstagingdirectory)/publish -c $(BuildConfiguration) --no-restore --no-build"
-  #    modifyOutputPath: true
+  - task: DotNetCoreCLI@2
+    displayName: "Publish SFA.DAS.Payments.AcceptanceTests.Components.Core"
+    inputs:
+      command: publish
+      publishWebProjects: false #set to false as this setting (which defaults to true) will parse the entire repo for web projects
+      projects: src/SFA.DAS.Payments.AcceptanceTests.Components.Core/SFA.DAS.Payments.AcceptanceTests.Components.Core.csproj
+      arguments: "-o $(build.artifactstagingdirectory)/publish -c $(BuildConfiguration) --no-restore --no-build"
+      modifyOutputPath: true
 
   # # Publish SFA.DAS.Payments.AcceptanceTests.Core
   # - task: DotNetCoreCLI@2
