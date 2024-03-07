@@ -46,15 +46,8 @@ jobs:
   #    maximumCpuCount: true
   #    logProjectEvents: true
   #    createLogFile: true
-
-  - task: PublishBuildArtifacts@1
-    displayName: 'Publish artifacts'
-    inputs:
-      PathtoPublish: $(build.artifactstagingdirectory)
-      ArtifactName: 'PublishBuildArtifacts'
-
-
-   # Publish SFA.DAS.Payments.AcceptanceTests.Components.Core
+  
+  # Publish SFA.DAS.Payments.AcceptanceTests.Components.Core
   - task: DotNetCoreCLI@2
     displayName: "Publish SFA.DAS.Payments.AcceptanceTests.Components.Core"
     inputs:
@@ -62,7 +55,7 @@ jobs:
       publishWebProjects: false #set to false as this setting (which defaults to true) will parse the entire repo for web projects
       projects: src/SFA.DAS.Payments.AcceptanceTests.Core/SFA.DAS.Payments.AcceptanceTests.Core.csproj
       arguments: "-o $(build.artifactstagingdirectory)/publish -c $(BuildConfiguration) --no-restore --no-build"
-      modifyOutputPath: false
+      modifyOutputPath: true
       zipAfterPublish: false
 
   # # Publish SFA.DAS.Payments.AcceptanceTests.Core
@@ -96,19 +89,18 @@ jobs:
   #     modifyOutputPath: true
 
   - task: CopyFiles@2
-    displayName: 'Copy Files to: $(build.artifactstagingdirectory)'
+    displayName: 'Copy Files to: $(build.artifactstagingdirectory)/publish'
     inputs:
       Contents: |
         /**
-      TargetFolder: '$(Build.ArtifactStagingDirectory)'
+      TargetFolder: '$(Build.ArtifactStagingDirectory)/publish'
       OverWrite: true
 
-  - task: PublishBuildArtifacts@1
+  - task: PublishPipelineArtifact@1
     displayName: 'Publish Artifact: drop'
     inputs:
-      #targetPath: $(build.artifactstagingdirectory)/publish
-      PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-      artifactName: drop-acceptancetests-common
+      targetPath: $(build.artifactstagingdirectory)/publish
+      artifactName: drop
 
   - template: /azure-pipelines-templates/build/step/nuget-pack.yml
     parameters:
