@@ -30,22 +30,25 @@ jobs:
       vstsFeed: 'dct-pkg'
 
   #- task: DotNetCoreCLI@2
-  - task: NuGetCommand@2
-    displayName: Build
-    inputs:
-      projects:  'src/SFA.DAS.Payments.AcceptanceTests.Core/SFA.DAS.Payments.AcceptanceTests.Core.csproj'
-      # projects:  ${{ parameters.TargetProjects }}
-      arguments: '--configuration $(buildConfiguration) --no-restore'
-  
-  #- task: MSBuild@1
-  #  displayName: 'Build csproj'
+  #- task: NuGetCommand@2
+  #  displayName: Build
   #  inputs:
-  #    solution: '**/*.csproj'
-  #    msbuildArguments: '/p:version=$(Build.BuildNumber) /p:FileVersion=$(Build.BuildNumber) /t:Publish /p:OutputPath=$(build.artifactstagingdirectory)/publish'
-  #    clean: true
-  #    maximumCpuCount: true
-  #    logProjectEvents: true
-  #    createLogFile: true
+  #    projects:  'src/SFA.DAS.Payments.AcceptanceTests.Core/SFA.DAS.Payments.AcceptanceTests.Core.csproj'
+  #    # projects:  ${{ parameters.TargetProjects }}
+  #    arguments: '--configuration $(buildConfiguration) --no-restore'
+  
+  - task: MSBuild@1
+    displayName: 'Build csproj'
+    inputs:
+      #solution: '**/*.csproj'
+      solution: '**/*Payments.sln'
+      configuration: '$(BuildConfiguration)'
+      #msbuildArguments: '/p:version=$(Build.BuildNumber) /p:FileVersion=$(Build.BuildNumber) /t:Publish /p:OutputPath=$(build.artifactstagingdirectory)/publish'
+      msbuildArguments: '/p:version=$(Build.BuildNumber) /p:FileVersion=$(Build.BuildNumber)'
+      clean: true
+      maximumCpuCount: true
+      logProjectEvents: true
+      createLogFile: true
   
   # Publish SFA.DAS.Payments.AcceptanceTests.Components.Core
   - task: DotNetCoreCLI@2
