@@ -3,11 +3,22 @@ parameters:
 jobs:
 - job: CodeBuild
   pool:
-    name: SLD Build Pool
+    name: SLD Build Pool  
   variables:
   - group: BUILD Management Resources
   steps:
   - template: /azure-pipelines-templates/build/step/gitversion.yml
+
+  # Publish SFA.DAS.Payments.AcceptanceTests.Components.Core
+  - task: DotNetCoreCLI@2
+    displayName: "Publish SFA.DAS.Payments.AcceptanceTests.Components.Core"
+    inputs:
+      command: publish
+      publishWebProjects: false #set to false as this setting (which defaults to true) will parse the entire repo for web projects
+      projects: src/SFA.DAS.Payments.AcceptanceTests.Core/SFA.DAS.Payments.AcceptanceTests.Core.csproj
+      arguments: "-o $(build.artifactstagingdirectory)/publish -c $(BuildConfiguration) --no-restore --no-build"
+      modifyOutputPath: true
+      zipAfterPublish: false
 
   - task: NuGetCommand@2
     displayName: Nuget Restore
@@ -40,8 +51,8 @@ jobs:
   - task: MSBuild@1
     displayName: 'Build csproj'
     inputs:
-      #solution: '**/*.csproj'
-      solution: 'src/SFA.DAS.Payments.AcceptanceTests.common.sln'
+      #solution: 'src/SFA.DAS.Payments.AcceptanceTests.Core/SFA.DAS.Payments.AcceptanceTests.Core.csproj'
+      #solution: 'src/SFA.DAS.Payments.AcceptanceTests.common.sln'
       configuration: '$(BuildConfiguration)'
       msbuildArguments: '/p:version=$(Build.BuildNumber) /p:FileVersion=$(Build.BuildNumber) /t:Publish /p:OutputPath=$(build.artifactstagingdirectory)/publish'
       #msbuildArguments: '/p:version=$(Build.BuildNumber) /p:FileVersion=$(Build.BuildNumber)'
@@ -50,17 +61,7 @@ jobs:
       logProjectEvents: true
       createLogFile: true
   
-  # Publish SFA.DAS.Payments.AcceptanceTests.Components.Core
-  - task: DotNetCoreCLI@2
-    displayName: "Publish SFA.DAS.Payments.AcceptanceTests.Components.Core"
-    inputs:
-      command: publish
-      publishWebProjects: false #set to false as this setting (which defaults to true) will parse the entire repo for web projects
-      projects: src/SFA.DAS.Payments.AcceptanceTests.Core/SFA.DAS.Payments.AcceptanceTests.Core.csproj
-      arguments: "-o $(build.artifactstagingdirectory)/publish -c $(BuildConfiguration) --no-restore --no-build"
-      modifyOutputPath: true
-      zipAfterPublish: false
-      
+    
 
   # # Publish SFA.DAS.Payments.AcceptanceTests.Core
   # - task: DotNetCoreCLI@2
@@ -96,7 +97,7 @@ jobs:
     displayName: 'Copy Files to: $(build.artifactstagingdirectory)\publish'
     inputs:
       Contents: |
-        \**
+        azure*\**
       TargetFolder: '$(build.artifactstagingdirectory)/publish'
       OverWrite: true
 
@@ -108,7 +109,7 @@ jobs:
 
   - template: /azure-pipelines-templates/build/step/nuget-pack.yml
     parameters:
-      DotNetStandardPackagesToPack: |
+      DotNetFrameworkPackagesToPack: |
         src/SFA.DAS.Payments.AcceptanceTests.Core/SFA.DAS.Payments.AcceptanceTests.Core.csproj
 
   # - template: /azure-pipelines-templates/build/step/nuget-pack.yml
