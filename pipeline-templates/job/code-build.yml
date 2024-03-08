@@ -41,7 +41,7 @@ jobs:
     displayName: 'Build csproj'
     inputs:
       #solution: '**/*.csproj'
-      solution: '**/*Payments.sln'
+      solution: 'src/SFA.DAS.Payments.AcceptanceTests.common.sln'
       configuration: '$(BuildConfiguration)'
       #msbuildArguments: '/p:version=$(Build.BuildNumber) /p:FileVersion=$(Build.BuildNumber) /t:Publish /p:OutputPath=$(build.artifactstagingdirectory)/publish'
       msbuildArguments: '/p:version=$(Build.BuildNumber) /p:FileVersion=$(Build.BuildNumber)'
