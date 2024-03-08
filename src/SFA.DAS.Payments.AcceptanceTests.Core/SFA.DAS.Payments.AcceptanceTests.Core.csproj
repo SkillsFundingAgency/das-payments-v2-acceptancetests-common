@@ -493,7 +493,9 @@
     <Error Condition="!Exists('..\packages\SpecFlow.2.4.1\build\SpecFlow.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\SpecFlow.2.4.1\build\SpecFlow.targets'))" />
     <Error Condition="!Exists('..\packages\Teronis.MSBuild.Packaging.ProjectBuildInPackage.0.1.1\build\Teronis.MSBuild.Packaging.ProjectBuildInPackage.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Teronis.MSBuild.Packaging.ProjectBuildInPackage.0.1.1\build\Teronis.MSBuild.Packaging.ProjectBuildInPackage.props'))" />
     <Error Condition="!Exists('..\packages\Teronis.MSBuild.Packaging.ProjectBuildInPackage.0.1.1\build\Teronis.MSBuild.Packaging.ProjectBuildInPackage.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Teronis.MSBuild.Packaging.ProjectBuildInPackage.0.1.1\build\Teronis.MSBuild.Packaging.ProjectBuildInPackage.targets'))" />
+    <Error Condition="!Exists('..\packages\NuGet.Build.Tasks.Pack.6.9.1\build\NuGet.Build.Tasks.Pack.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\NuGet.Build.Tasks.Pack.6.9.1\build\NuGet.Build.Tasks.Pack.targets'))" />
   </Target>
   <Import Project="..\packages\SpecFlow.2.4.1\build\SpecFlow.targets" Condition="Exists('..\packages\SpecFlow.2.4.1\build\SpecFlow.targets')" />
   <Import Project="..\packages\Teronis.MSBuild.Packaging.ProjectBuildInPackage.0.1.1\build\Teronis.MSBuild.Packaging.ProjectBuildInPackage.targets" Condition="Exists('..\packages\Teronis.MSBuild.Packaging.ProjectBuildInPackage.0.1.1\build\Teronis.MSBuild.Packaging.ProjectBuildInPackage.targets')" />
+  <Import Project="..\packages\NuGet.Build.Tasks.Pack.6.9.1\build\NuGet.Build.Tasks.Pack.targets" Condition="Exists('..\packages\NuGet.Build.Tasks.Pack.6.9.1\build\NuGet.Build.Tasks.Pack.targets')" />
 </Project>
