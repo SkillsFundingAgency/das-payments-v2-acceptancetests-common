@@ -13,6 +13,11 @@ steps:
       if ("$(GitVersion.PreReleaseLabel)" -ne "") { $NuGetPackageVersion = "$(GitVersion.MajorMinorPatch)-prerelease-$(PreReleaseNumber)" } else { $NuGetPackageVersion = "$(GitVersion.MajorMinorPatch)" }
       Write-Host "NuGetPackageVersion: $NuGetPackageVersion"
       Write-Host "##vso[task.setvariable variable=NuGetPackageVersion]$NuGetPackageVersion"
+      
+- task: NuGetToolInstaller@0
+  displayName: 'Use NuGet 4.9.x'
+  inputs:
+    versionSpec: 4.9.x
 
 #- task: DotNetCoreCLI@2
 #  condition: ne('${{ parameters.DotNetStandardPackagesToPack }}', '')

@@ -20,6 +20,11 @@ jobs:
       modifyOutputPath: true
       zipAfterPublish: false
 
+  - task: NuGetToolInstaller@0
+    displayName: 'Use NuGet 4.9.x'
+    inputs:
+      versionSpec: 4.9.x
+
   - task: NuGetCommand@2
     displayName: Nuget Restore
     inputs:
