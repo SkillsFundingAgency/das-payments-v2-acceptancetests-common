@@ -43,8 +43,8 @@ jobs:
       #solution: '**/*.csproj'
       solution: 'src/SFA.DAS.Payments.AcceptanceTests.common.sln'
       configuration: '$(BuildConfiguration)'
-      #msbuildArguments: '/p:version=$(Build.BuildNumber) /p:FileVersion=$(Build.BuildNumber) /t:Publish /p:OutputPath=$(build.artifactstagingdirectory)/publish'
-      msbuildArguments: '/p:version=$(Build.BuildNumber) /p:FileVersion=$(Build.BuildNumber)'
+      msbuildArguments: '/p:version=$(Build.BuildNumber) /p:FileVersion=$(Build.BuildNumber) /t:Publish /p:OutputPath=$(build.artifactstagingdirectory)/publish'
+      #msbuildArguments: '/p:version=$(Build.BuildNumber) /p:FileVersion=$(Build.BuildNumber)'
       clean: true
       maximumCpuCount: true
       logProjectEvents: true
