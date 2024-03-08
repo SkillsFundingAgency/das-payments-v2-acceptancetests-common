@@ -19,7 +19,8 @@ steps:
   displayName: 'dotnet pack'
   inputs:
     command: pack
-    packagesToPack: ${{ parameters.DotNetStandardPackagesToPack }}
+    #packagesToPack: ${{ parameters.DotNetStandardPackagesToPack }}
+    packagesToPack: src/SFA.DAS.Payments.AcceptanceTests.Core/SFA.DAS.Payments.AcceptanceTests.Core.csproj
     versioningScheme: byEnvVar
     versionEnvVar: NuGetPackageVersion
     packDirectory: $(build.artifactstagingdirectory)/NuGetPackages
