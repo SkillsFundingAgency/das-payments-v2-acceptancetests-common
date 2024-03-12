@@ -57,10 +57,9 @@ jobs:
     displayName: 'Build csproj'
     inputs:
       #solution: 'src/SFA.DAS.Payments.AcceptanceTests.Core/SFA.DAS.Payments.AcceptanceTests.Core.csproj'
-      #solution: 'src/SFA.DAS.Payments.AcceptanceTests.common.sln'
+      solution: 'src/SFA.DAS.Payments.AcceptanceTests.common.sln'
       configuration: '$(BuildConfiguration)'
       msbuildArguments: '/p:version=$(Build.BuildNumber) /p:FileVersion=$(Build.BuildNumber) /t:Publish /p:Configuration=Release /p:OutputPath=$(build.artifactstagingdirectory)/publish'
-
       clean: true
       maximumCpuCount: true
       logProjectEvents: true
@@ -99,7 +98,7 @@ jobs:
   #     modifyOutputPath: true
 
   - task: CopyFiles@2
-    displayName: 'Copy Files to: $(build.artifactstagingdirectory)\publish'
+    displayName: 'Copy Files to: $(build.artifactstagingdirectory)/publish'
     inputs:
       Contents: |
         azure*\**
