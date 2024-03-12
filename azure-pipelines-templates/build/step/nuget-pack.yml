@@ -45,4 +45,4 @@ steps:
   displayName: 'Publish Artifact: NuGetPackages'
   inputs:
     ArtifactName: NuGetPackages
-    pathtoPublish: '$(build.artifactstagingdirectory)/NuGetPackages'
+    pathtoPublish: '$(build.artifactstagingdirectory)/publish'
