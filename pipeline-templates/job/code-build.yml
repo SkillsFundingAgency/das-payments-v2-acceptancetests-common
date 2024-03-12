@@ -68,14 +68,14 @@ jobs:
     
 
    # Publish SFA.DAS.Payments.AcceptanceTests.Core
-   - task: DotNetCoreCLI@2
-     displayName: "Publish SFA.DAS.Payments.AcceptanceTests.Core"
-     inputs:
-       command: publish
-       publishWebProjects: false #set to false as this setting (which defaults to true) will parse the entire repo for web projects
-       projects: src/SFA.DAS.Payments.AcceptanceTests.Core/SFA.DAS.Payments.AcceptanceTests.Core.csproj
-       arguments: "-o $(build.artifactstagingdirectory)/publish -c $(BuildConfiguration) --no-restore --no-build"
-       modifyOutputPath: true
+  - task: DotNetCoreCLI@2
+    displayName: "Publish SFA.DAS.Payments.AcceptanceTests.Core"
+    inputs:
+      command: publish
+      publishWebProjects: false #set to false as this setting (which defaults to true) will parse the entire repo for web projects
+      projects: src/SFA.DAS.Payments.AcceptanceTests.Core/SFA.DAS.Payments.AcceptanceTests.Core.csproj
+      arguments: "-o $(build.artifactstagingdirectory)/publish -c $(BuildConfiguration) --no-restore --no-build"
+      modifyOutputPath: true
 
   # # Publish SFA.DAS.Payments.AcceptanceTests.Services
   # - task: DotNetCoreCLI@2
