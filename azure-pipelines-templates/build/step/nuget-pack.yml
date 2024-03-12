@@ -30,16 +30,16 @@ steps:
 #    versionEnvVar: NuGetPackageVersion
 #    packDirectory: $(build.artifactstagingdirectory)/NuGetPackages
 
-#- task: NuGetCommand@2
+- task: NuGetCommand@2
 #- task: DotNetCoreCLI@2
 #  condition: ne('${{ parameters.DotNetFrameworkPackagesToPack }}', '')
-#  displayName: 'dotnet pack'
-#  inputs:
-#    command: pack
-#    packagesToPack: ${{ parameters.DotNetFrameworkPackagesToPack }}
-#    versioningScheme: byEnvVar
-#    versionEnvVar: NuGetPackageVersion
-#    packDestination: $(build.artifactstagingdirectory)/NuGetPackages
+  displayName: 'nuget pack'
+  inputs:
+    command: pack
+    packagesToPack: ${{ parameters.DotNetFrameworkPackagesToPack }}
+    versioningScheme: byEnvVar
+    versionEnvVar: NuGetPackageVersion
+    packDestination: $(build.artifactstagingdirectory)/NuGetPackages
 
 - task: PublishBuildArtifacts@1
   displayName: 'Publish Artifact: NuGetPackages'
