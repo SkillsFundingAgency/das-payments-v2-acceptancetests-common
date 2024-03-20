@@ -2,6 +2,8 @@ using System;
 using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
+using System.Security.Cryptography;
+using System.Text;
 using System.Threading.Tasks;
 using Autofac;
 using ESFA.DC.ILR.TestDataGenerator.Api;
@@ -41,6 +43,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.Core.Infrastructure
         [BeforeTestRun(Order = -1)]
         public static void TestRunSetUp()
         {
+            const int maxEntityName = 50;
             var config = new TestsConfiguration();
             Builder = new ContainerBuilder();
             Builder.RegisterType<TestsConfiguration>().SingleInstance();
@@ -126,19 +129,31 @@ namespace SFA.DAS.Payments.AcceptanceTests.Core.Infrastructure
                 .As<TransportExtensions<AzureServiceBusTransport>>()
                 .SingleInstance();
 
-            transportConfig
-                .UseForwardingTopology()
-                .ConnectionString(config.ServiceBusConnectionString)
-                .Transactions(TransportTransactionMode.ReceiveOnly)
-                .Queues()
-                .DefaultMessageTimeToLive(config.DefaultMessageTimeToLive);
+            //Uses built in ForwardingTopology
+            transportConfig.ConnectionString(config.ServiceBusConnectionString)
+                .Transactions(TransportTransactionMode.ReceiveOnly);
 
-            var sanitization = transportConfig.Sanitization();
-            var strategy = sanitization.UseStrategy<ValidateAndHashIfNeeded>();
-            strategy.RuleNameSanitization(
+            //This replaces ValidateAndHashIfNeeded flag.
+            transportConfig.SubscriptionNameShortener(ruleName => ruleName.Split('.').LastOrDefault() ?? ruleName);
+            transportConfig.SubscriptionNameShortener(n => n.Length > maxEntityName ? HashName(n) : n);
+            transportConfig.RuleNameShortener(
                 ruleName => ruleName.Split('.').LastOrDefault() ?? ruleName);
+
+
             EndpointConfiguration.UseSerialization<NewtonsoftSerializer>();
             EndpointConfiguration.EnableInstallers();
+        }
+
+
+        private static string HashName(string input)
+        {
+            var inputBytes = Encoding.Default.GetBytes(input);
+            // use MD5 hash to get a 16-byte hash of the string
+            using (var provider = new MD5CryptoServiceProvider())
+            {
+                var hashBytes = provider.ComputeHash(inputBytes);
+                return new Guid(hashBytes).ToString();
+            }
         }
 
 

@@ -27,7 +27,6 @@
     <PackageReference Include="ESFA.DC.Queueing.Interface" Version="0.1.14-beta0001" />
     <PackageReference Include="ESFA.DC.Serialization.Interfaces" Version="0.1.6-beta0001" />
     <PackageReference Include="ESFA.DC.Serialization.Json" Version="0.1.6-beta0001" />
-    <PackageReference Include="NServiceBus.Azure.Transports.WindowsAzureServiceBus" Version="9.0.0" />
     <PackageReference Include="NUnit" Version="3.11.0" />
     <PackageReference Include="SFA.DAS.Payments.FundingSource.Messages.Internal" Version="1.0.0" />
     <PackageReference Include="SFA.DAS.Payments.Messages.Common" Version="1.1.0" />
