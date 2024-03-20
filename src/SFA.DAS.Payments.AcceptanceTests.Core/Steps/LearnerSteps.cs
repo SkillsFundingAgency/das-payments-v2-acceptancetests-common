@@ -1,5 +1,5 @@
 ﻿using System;
-using SFA.DAS.Payments.AcceptanceTests.Core.Application;
+using SFA.DAS.Payments.AcceptanceTests.Core.Automation;
 using SFA.DAS.Payments.AcceptanceTests.Core.Data;
 using TechTalk.SpecFlow;
 
@@ -8,8 +8,8 @@ namespace SFA.DAS.Payments.AcceptanceTests.Core.Steps
     [Binding]
     public class LearnerSteps
     {
-        private readonly LearnRefNumberGenerator learnRefNumberGenerator;
         private readonly ScenarioContext context;
+        private readonly LearnRefNumberGenerator learnRefNumberGenerator;
 
         public LearnerSteps(LearnRefNumberGenerator generator, ScenarioContext context)
         {
@@ -36,6 +36,5 @@ namespace SFA.DAS.Payments.AcceptanceTests.Core.Steps
 
             context.Set(learner);
         }
-
     }
 }
