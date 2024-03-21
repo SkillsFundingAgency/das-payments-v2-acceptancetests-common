@@ -6,8 +6,8 @@ namespace SFA.DAS.Payments.AcceptanceTests.Core.Automation
     [Obsolete("Should use the auto generated learner reference on the TestLearner")]
     public class LearnRefNumberGenerator
     {
-        private readonly int sessionIdHash;
         private readonly Dictionary<string, string> learnerLookup;
+        private readonly int sessionIdHash;
 
         public LearnRefNumberGenerator(string sessionId)
         {

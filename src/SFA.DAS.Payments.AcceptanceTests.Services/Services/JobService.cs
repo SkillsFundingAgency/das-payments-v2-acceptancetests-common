@@ -7,9 +7,8 @@ using ESFA.DC.Jobs.Model.Enums;
 using Newtonsoft.Json;
 using SFA.DAS.Payments.AcceptanceTests.Services.BespokeHttpClient;
 using SFA.DAS.Payments.AcceptanceTests.Services.Intefaces;
-using JobStatusDto = ESFA.DC.Jobs.Model.JobStatusDto;
 
-namespace SFA.DAS.Payments.AcceptanceTests.Services
+namespace SFA.DAS.Payments.AcceptanceTests.Services.Services
 {
     public class JobService : IJobService
     {
@@ -28,11 +27,11 @@ namespace SFA.DAS.Payments.AcceptanceTests.Services
 
         public async Task<string> UpdateJobStatus(long jobId, JobStatusType status)
         {
-            var job = new JobStatusDto()
+            var job = new JobStatusDto
             {
                 JobId = jobId,
                 JobStatus = (int)status,
-                NumberOfLearners =  0
+                NumberOfLearners = 0
             };
             return await httpClient.SendDataAsync("job/status", job);
         }
@@ -44,7 +43,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.Services
                 throw new ArgumentException("submission message should have file name");
             }
 
-            var job = new FileUploadJob()
+            var job = new FileUploadJob
             {
                 Ukprn = submissionMessage.Ukprn,
                 DateTimeCreatedUtc = DateTime.UtcNow,
@@ -77,7 +76,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.Services
         {
             var data = await httpClient.GetDataAsync($"job/{ukprn}").ConfigureAwait(false);
             var jobList = JsonConvert.DeserializeObject<IEnumerable<FileUploadJob>>(data);
-            return jobList.Where(x => status.Contains((int) x.Status)).Select(j => j.JobId);
+            return jobList.Where(x => status.Contains((int)x.Status)).Select(j => j.JobId);
         }
 
         public async Task<FileUploadJob> GetJob(long ukprn, long jobId)

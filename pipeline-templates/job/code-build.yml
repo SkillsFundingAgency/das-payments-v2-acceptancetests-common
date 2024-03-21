@@ -3,7 +3,7 @@ parameters:
 jobs:
 - job: CodeBuild
   pool:
-    name: SLD Build pool
+    name: DCT Build Pool
   variables:
   - group: BUILD Management Resources
   steps:
