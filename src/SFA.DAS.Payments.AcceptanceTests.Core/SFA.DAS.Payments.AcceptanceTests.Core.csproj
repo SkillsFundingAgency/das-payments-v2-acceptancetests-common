@@ -1,11 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+	  <TargetFramework>net6</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Autofac" Version="4.8.1" />
+    <PackageReference Include="Autofac" Version="8.0.0" />
     <PackageReference Include="Bogus" Version="35.5.0" />
     <PackageReference Include="ESFA.DC.Auditing.Interface" Version="0.2.0-beta0001" />
     <PackageReference Include="ESFA.DC.CollectionsManagement.Models" Version="0.1.6-beta0001" />
@@ -27,13 +27,13 @@
     <PackageReference Include="ESFA.DC.Queueing.Interface" Version="0.1.14-beta0001" />
     <PackageReference Include="ESFA.DC.Serialization.Interfaces" Version="0.1.6-beta0001" />
     <PackageReference Include="ESFA.DC.Serialization.Json" Version="0.1.6-beta0001" />
-    <PackageReference Include="NUnit" Version="3.11.0" />
+    <PackageReference Include="NUnit" Version="4.1.0" />
     <PackageReference Include="SFA.DAS.Payments.FundingSource.Messages.Internal" Version="1.0.0" />
     <PackageReference Include="SFA.DAS.Payments.Messages.Common" Version="1.1.0" />
-    <PackageReference Include="SFA.DAS.Payments.Monitoring.Jobs.Client" Version="1.1.1" />
-    <PackageReference Include="SFA.DAS.Payments.Monitoring.Jobs.Data" Version="1.1.1" />
-    <PackageReference Include="SFA.DAS.Payments.Monitoring.Jobs.DataMessages" Version="1.1.1" />
-    <PackageReference Include="SFA.DAS.Payments.Monitoring.Jobs.Model" Version="1.1.1" />
+    <PackageReference Include="SFA.DAS.Payments.Monitoring.Jobs.Client" Version="1.1.2" />
+    <PackageReference Include="SFA.DAS.Payments.Monitoring.Jobs.Data" Version="1.1.2" />
+    <PackageReference Include="SFA.DAS.Payments.Monitoring.Jobs.DataMessages" Version="1.1.2" />
+    <PackageReference Include="SFA.DAS.Payments.Monitoring.Jobs.Model" Version="1.1.2" />
     <PackageReference Include="SpecFlow" Version="3.9.74" />
   </ItemGroup>
 
