@@ -44,7 +44,10 @@ namespace SFA.DAS.Payments.AcceptanceTests.Core.Infrastructure
         public static void TestRunSetUp()
         {
             const int maxEntityName = 50;
+
+            //TODO: Handle where the config is not json
             var config = new TestsConfiguration();
+            
             Builder = new ContainerBuilder();
             Builder.RegisterType<TestsConfiguration>().SingleInstance();
             Builder.RegisterType<EarningsJobClient>()

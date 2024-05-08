@@ -38,11 +38,11 @@ namespace SFA.DAS.Payments.AcceptanceTests.Core.Infrastructure
         public string ServiceBusConnectionString => GetConnectionString(AppSettingFormatter(ServiceBusConnectionStringAppSetting));
         public string DasServiceBusConnectionString => GetConnectionString(AppSettingFormatter(DasServiceBusConnectionStringAppSetting));
         public string PaymentsConnectionString => GetConnectionString(AppSettingFormatter(PaymentsConnectionStringAppSetting));
-        public bool ValidateDcAndDasServices => bool.Parse(AppSettingFormatter(ValidateDcAndDasServicesAppSetting) ?? "false");
-        public TimeSpan TimeToWait => TimeSpan.Parse(AppSettingFormatter(TimeToWaitAppSetting) ?? "00:00:30");
-        public TimeSpan TimeToWaitForUnexpected => TimeSpan.Parse(AppSettingFormatter(TimeToWaitForUnexpectedAppSetting) ?? "00:00:30");
-        public TimeSpan TimeToPause => TimeSpan.Parse(AppSettingFormatter(TimeToPauseAppSetting) ?? "00:00:05");
-        public TimeSpan DefaultMessageTimeToLive => TimeSpan.Parse(AppSettingFormatter(DefaultMessageTimeToLiveAppSetting) ?? "00:20:00");
+        public bool ValidateDcAndDasServices => bool.Parse(GetAppSetting(AppSettingFormatter(ValidateDcAndDasServicesAppSetting)) ?? "false");
+        public TimeSpan TimeToWait => TimeSpan.Parse(GetAppSetting(AppSettingFormatter(TimeToWaitAppSetting)) ?? "00:00:30");
+        public TimeSpan TimeToWaitForUnexpected => TimeSpan.Parse(GetAppSetting(AppSettingFormatter(TimeToWaitForUnexpectedAppSetting)) ?? "00:00:30");
+        public TimeSpan TimeToPause => TimeSpan.Parse(GetAppSetting(AppSettingFormatter(TimeToPauseAppSetting)) ?? "00:00:05");
+        public TimeSpan DefaultMessageTimeToLive => TimeSpan.Parse(GetAppSetting(AppSettingFormatter(DefaultMessageTimeToLiveAppSetting)) ?? "00:20:00");
         public string GetAppSetting(string keyName) => IsJsonConfig? Config.GetSection(keyName).Value : ConfigurationManager.AppSettings[keyName] ?? throw new InvalidOperationException($"{keyName} not found in app settings.");
         public string GetConnectionString(string name) => IsJsonConfig ? Config.GetConnectionString(name) : ConfigurationManager.ConnectionStrings[name].ConnectionString ?? throw new InvalidOperationException($"{name} not found in connection strings.");
     }

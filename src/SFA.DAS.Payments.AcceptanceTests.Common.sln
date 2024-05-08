@@ -3,13 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33110.190
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.Payments.AcceptanceTests.Core", "SFA.DAS.Payments.AcceptanceTests.Core\SFA.DAS.Payments.AcceptanceTests.Core.csproj", "{0F0BEB68-7F9F-4D39-B85A-3FE7701BB6CC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SFA.DAS.Payments.AcceptanceTests.Core", "SFA.DAS.Payments.AcceptanceTests.Core\SFA.DAS.Payments.AcceptanceTests.Core.csproj", "{0F0BEB68-7F9F-4D39-B85A-3FE7701BB6CC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.Payments.AcceptanceTests.Components.Core", "SFA.DAS.Payments.AcceptanceTests.Components.Core\SFA.DAS.Payments.AcceptanceTests.Components.Core.csproj", "{EA528342-CA70-4A00-A34B-6CE156633AD1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SFA.DAS.Payments.AcceptanceTests.Components.Core", "SFA.DAS.Payments.AcceptanceTests.Components.Core\SFA.DAS.Payments.AcceptanceTests.Components.Core.csproj", "{EA528342-CA70-4A00-A34B-6CE156633AD1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.Payments.Tests.Core", "SFA.DAS.Payments.Tests.Core\SFA.DAS.Payments.Tests.Core.csproj", "{64B5C1EB-36A9-4A56-AD6B-B70C90FC23D7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SFA.DAS.Payments.Tests.Core", "SFA.DAS.Payments.Tests.Core\SFA.DAS.Payments.Tests.Core.csproj", "{64B5C1EB-36A9-4A56-AD6B-B70C90FC23D7}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SFA.DAS.Payments.AcceptanceTests.Services", "SFA.DAS.Payments.AcceptanceTests.Services\SFA.DAS.Payments.AcceptanceTests.Services.csproj", "{C367DA42-6ED6-4028-B754-F39148F5D2C8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{F1B910B7-D76B-4CD9-A0CE-8B37B3125656}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.Payments.AcceptanceTests.Core.UnitTests", "SFA.DAS.Payments.AcceptanceTests.Core.UnitTests\SFA.DAS.Payments.AcceptanceTests.Core.UnitTests.csproj", "{51F6B80B-A9A4-42C5-8C23-A9AA8F84E52B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,9 +55,20 @@ Global
 		{C367DA42-6ED6-4028-B754-F39148F5D2C8}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C367DA42-6ED6-4028-B754-F39148F5D2C8}.Release|x64.ActiveCfg = Release|Any CPU
 		{C367DA42-6ED6-4028-B754-F39148F5D2C8}.Release|x64.Build.0 = Release|Any CPU
+		{51F6B80B-A9A4-42C5-8C23-A9AA8F84E52B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{51F6B80B-A9A4-42C5-8C23-A9AA8F84E52B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{51F6B80B-A9A4-42C5-8C23-A9AA8F84E52B}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{51F6B80B-A9A4-42C5-8C23-A9AA8F84E52B}.Debug|x64.Build.0 = Debug|Any CPU
+		{51F6B80B-A9A4-42C5-8C23-A9AA8F84E52B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{51F6B80B-A9A4-42C5-8C23-A9AA8F84E52B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{51F6B80B-A9A4-42C5-8C23-A9AA8F84E52B}.Release|x64.ActiveCfg = Release|Any CPU
+		{51F6B80B-A9A4-42C5-8C23-A9AA8F84E52B}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{51F6B80B-A9A4-42C5-8C23-A9AA8F84E52B} = {F1B910B7-D76B-4CD9-A0CE-8B37B3125656}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4E9E6D1E-3C3C-41C9-AED4-9B6DC9118F1F}
