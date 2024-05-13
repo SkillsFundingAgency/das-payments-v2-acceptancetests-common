@@ -14,6 +14,7 @@ using ESFA.DC.IO.AzureStorage.Config.Interfaces;
 using ESFA.DC.IO.Interfaces;
 using ESFA.DC.Serialization.Interfaces;
 using ESFA.DC.Serialization.Json;
+using Microsoft.Extensions.Configuration;
 using Microsoft.ServiceBus;
 using Microsoft.ServiceBus.Messaging;
 using NServiceBus;
@@ -45,9 +46,9 @@ namespace SFA.DAS.Payments.AcceptanceTests.Core.Infrastructure
         {
             const int maxEntityName = 50;
 
-            //TODO: Handle where the config is not json
-            var config = new TestsConfiguration();
-            
+            var config = new TestsConfiguration(new ConfigurationBuilder()
+                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true).Build());
+
             Builder = new ContainerBuilder();
             Builder.RegisterType<TestsConfiguration>().SingleInstance();
             Builder.RegisterType<EarningsJobClient>()

@@ -7,12 +7,15 @@ namespace SFA.DAS.Payments.AcceptanceTests.Core.UnitTests;
 [TestFixture]
 public class TestsConfigurationTests
 {
-    private TestsConfiguration jsonTestsConfiguration;
-
     [SetUp]
     public void Setup()
     {
-        var config = new ConfigurationBuilder()
+    }
+
+    [Test]
+    public void JsonTestConfiguration_ReturnsCorrectValue()
+    {
+        var jsonConfig = new ConfigurationBuilder()
             .AddInMemoryCollection(new Dictionary<string, string>
             {
                 { "AppSettings:EndpointName", "TestEndpoint" },
@@ -27,13 +30,8 @@ public class TestsConfigurationTests
                 { "AppSettings:DefaultMessageTimeToLive", "00:20:00" }
             }!)
             .Build();
+        var jsonTestsConfiguration = new TestsConfiguration(jsonConfig);
 
-        jsonTestsConfiguration = new TestsConfiguration(config);
-    }
-
-    [Test]
-    public void JsonTestConfiguration_ReturnsCorrectValue()
-    {
         jsonTestsConfiguration.AcceptanceTestsEndpointName.Should().Be("TestEndpoint");
         jsonTestsConfiguration.StorageConnectionString.Should().Be("TestStorageConnectionString");
         jsonTestsConfiguration.ServiceBusConnectionString.Should().Be("TestServiceBusConnectionString");
