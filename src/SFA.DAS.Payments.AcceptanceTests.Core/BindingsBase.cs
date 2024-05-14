@@ -9,7 +9,8 @@ namespace SFA.DAS.Payments.AcceptanceTests.Core
         public static ContainerBuilder Builder { get; protected set; } // -1
         public static IContainer Container { get; protected set; } // 50
         public static IMessageSession MessageSession { get; protected set; }
-        public static TestsConfiguration Config => Container.Resolve<TestsConfiguration>();
+        public static ITestsConfiguration Config => Container.Resolve<ITestsConfiguration>();
+
         public static string Environment => Config.GetAppSetting("Environment");
     }
 }

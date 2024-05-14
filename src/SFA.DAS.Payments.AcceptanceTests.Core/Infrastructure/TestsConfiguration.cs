@@ -3,14 +3,32 @@ using Microsoft.Extensions.Configuration;
 
 namespace SFA.DAS.Payments.AcceptanceTests.Core.Infrastructure
 {
-    public class TestsConfiguration
+    public interface ITestsConfiguration
     {
-        public static IConfigurationRoot Config;
+        string AcceptanceTestsEndpointName { get; }
+        string StorageConnectionString { get; }
+        string ServiceBusConnectionString { get; }
+        string DasServiceBusConnectionString { get; }
+        string PaymentsConnectionString { get; }
+        string Environment { get; }
+        bool ValidateDcAndDasServices { get; }
+        TimeSpan TimeToWait { get; }
+        TimeSpan TimeToWaitForUnexpected { get; }
+        TimeSpan TimeToPause { get; }
+        TimeSpan DefaultMessageTimeToLive { get; }
+        string GetAppSetting(string keyName);
+        string GetConnectionString(string name);
+
+    }
+    public class TestsConfiguration : ITestsConfiguration
+    {
+        private static IConfigurationRoot _config;
 
         public static readonly string EndpointNameAppSetting = "EndpointName";
         public static readonly string StorageConnectionStringAppSetting = "StorageConnectionString";
         public static readonly string ServiceBusConnectionStringAppSetting = "ServiceBusConnectionString";
         public static readonly string DasServiceBusConnectionStringAppSetting = "DASServiceBusConnectionString";
+        public static readonly string EnvironmentAppSetting = "Environment";
         public static readonly string PaymentsConnectionStringAppSetting = "PaymentsConnectionString";
         public static readonly string ValidateDcAndDasServicesAppSetting = "ValidateDcAndDasServices";
         public static readonly string TimeToWaitAppSetting = "TimeToWait";
@@ -18,9 +36,16 @@ namespace SFA.DAS.Payments.AcceptanceTests.Core.Infrastructure
         public static readonly string TimeToPauseAppSetting = "TimeToPause";
         public static readonly string DefaultMessageTimeToLiveAppSetting = "DefaultMessageTimeToLive";
 
-        public TestsConfiguration(IConfigurationRoot config)
+        public TestsConfiguration()
         {
-            Config = config;
+            _config = new ConfigurationBuilder()
+                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true).Build();
+
+            if (Environment is "DEVELOPMENT" or "LOCAL")
+            {
+                _config = new ConfigurationBuilder()
+                    .AddJsonFile("appsettings.Development.json", optional: false, reloadOnChange: true).Build();
+            }
         }
 
         public string AcceptanceTestsEndpointName => GetAppSetting(AppSettingFormatter(EndpointNameAppSetting));
@@ -28,6 +53,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.Core.Infrastructure
         public string ServiceBusConnectionString => GetConnectionString(ServiceBusConnectionStringAppSetting);
         public string DasServiceBusConnectionString => GetConnectionString(DasServiceBusConnectionStringAppSetting);
         public string PaymentsConnectionString => GetConnectionString(PaymentsConnectionStringAppSetting);
+        public string Environment => GetAppSetting(AppSettingFormatter(EnvironmentAppSetting));
 
         public bool ValidateDcAndDasServices =>
             bool.Parse(GetAppSetting(AppSettingFormatter(ValidateDcAndDasServicesAppSetting)) ?? "false");
@@ -51,13 +77,13 @@ namespace SFA.DAS.Payments.AcceptanceTests.Core.Infrastructure
 
         public string GetAppSetting(string keyName)
         {
-            return Config.GetSection(keyName).Value ??
+            return _config.GetSection(keyName).Value ??
                    throw new InvalidOperationException($"{keyName} not found in app settings.");
         }
 
         public string GetConnectionString(string name)
         {
-            return Config.GetConnectionString(name) ??
+            return _config.GetConnectionString(name) ??
                    throw new InvalidOperationException($"{name} not found in connection strings.");
         }
     }
