@@ -48,27 +48,27 @@ namespace SFA.DAS.Payments.AcceptanceTests.Core.Infrastructure
             }
         }
 
-        public string AcceptanceTestsEndpointName => GetAppSetting(AppSettingFormatter(EndpointNameAppSetting));
+        public string AcceptanceTestsEndpointName => GetAppSetting(EndpointNameAppSetting);
         public string StorageConnectionString => GetConnectionString(StorageConnectionStringAppSetting);
         public string ServiceBusConnectionString => GetConnectionString(ServiceBusConnectionStringAppSetting);
         public string DasServiceBusConnectionString => GetConnectionString(DasServiceBusConnectionStringAppSetting);
         public string PaymentsConnectionString => GetConnectionString(PaymentsConnectionStringAppSetting);
-        public string Environment => GetAppSetting(AppSettingFormatter(EnvironmentAppSetting));
+        public string Environment => GetAppSetting(EnvironmentAppSetting);
 
         public bool ValidateDcAndDasServices =>
-            bool.Parse(GetAppSetting(AppSettingFormatter(ValidateDcAndDasServicesAppSetting)) ?? "false");
+            bool.Parse(GetAppSetting(ValidateDcAndDasServicesAppSetting) ?? "false");
 
         public TimeSpan TimeToWait =>
-            TimeSpan.Parse(GetAppSetting(AppSettingFormatter(TimeToWaitAppSetting)) ?? "00:00:30");
+            TimeSpan.Parse(GetAppSetting(TimeToWaitAppSetting) ?? "00:00:30");
 
         public TimeSpan TimeToWaitForUnexpected =>
-            TimeSpan.Parse(GetAppSetting(AppSettingFormatter(TimeToWaitForUnexpectedAppSetting)) ?? "00:00:30");
+            TimeSpan.Parse(GetAppSetting(TimeToWaitForUnexpectedAppSetting) ?? "00:00:30");
 
         public TimeSpan TimeToPause =>
-            TimeSpan.Parse(GetAppSetting(AppSettingFormatter(TimeToPauseAppSetting)) ?? "00:00:05");
+            TimeSpan.Parse(GetAppSetting(TimeToPauseAppSetting) ?? "00:00:05");
 
         public TimeSpan DefaultMessageTimeToLive =>
-            TimeSpan.Parse(GetAppSetting(AppSettingFormatter(DefaultMessageTimeToLiveAppSetting)) ?? "00:20:00");
+            TimeSpan.Parse(GetAppSetting(DefaultMessageTimeToLiveAppSetting) ?? "00:20:00");
 
         private static string AppSettingFormatter(string appSettingName)
         {
@@ -77,7 +77,7 @@ namespace SFA.DAS.Payments.AcceptanceTests.Core.Infrastructure
 
         public string GetAppSetting(string keyName)
         {
-            return _config.GetSection(keyName).Value ??
+            return _config.GetSection(AppSettingFormatter(keyName)).Value ??
                    throw new InvalidOperationException($"{keyName} not found in app settings.");
         }
 
