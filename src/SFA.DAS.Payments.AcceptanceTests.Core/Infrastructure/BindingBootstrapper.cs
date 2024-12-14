@@ -20,6 +20,7 @@ using NServiceBus;
 using NServiceBus.Features;
 using NUnit.Framework;
 using NUnit.Framework.Interfaces;
+using SFA.DAS.Payments.Messages.Common;
 using Polly;
 using Polly.Registry;
 using SFA.DAS.Payments.AcceptanceTests.Core.Automation;
@@ -45,8 +46,11 @@ namespace SFA.DAS.Payments.AcceptanceTests.Core.Infrastructure
         {
             const int maxEntityName = 50;
             var config = new TestsConfiguration();
+
             Builder = new ContainerBuilder();
-            Builder.RegisterType<TestsConfiguration>().SingleInstance();
+            Builder.RegisterType<TestsConfiguration>().As<ITestsConfiguration>();
+            Builder.RegisterInstance<ITestsConfiguration>(config).SingleInstance();
+
             Builder.RegisterType<EarningsJobClient>()
                 .As<IEarningsJobClient>()
                 .InstancePerLifetimeScope();
@@ -73,36 +77,30 @@ namespace SFA.DAS.Payments.AcceptanceTests.Core.Infrastructure
                 Builder.RegisterType<RandomUlnService>().As<IUlnService>().InstancePerLifetimeScope();
             }
 
-            Builder.Register((c, p) =>
-            {
-                var configHelper = c.Resolve<TestsConfiguration>();
-                return new TestPaymentsDataContext(configHelper.PaymentsConnectionString);
-            }).As<TestPaymentsDataContext>().InstancePerDependency();
 
-            Builder.Register((c, p) =>
-            {
-                var configHelper = c.Resolve<TestsConfiguration>();
-                return new SubmissionDataContext(configHelper.PaymentsConnectionString);
-            }).As<SubmissionDataContext>().InstancePerDependency();
+            Builder.Register((c, p) => new TestPaymentsDataContext(config.PaymentsConnectionString)).As<TestPaymentsDataContext>().InstancePerDependency();
+
+            Builder.Register((c, p) => new SubmissionDataContext(config.PaymentsConnectionString)).As<SubmissionDataContext>().InstancePerDependency();
+
 
             Builder.Register(c => new TestSession(c.Resolve<IUkprnService>(), c.Resolve<IUlnService>()))
                 .InstancePerLifetimeScope();
 
             Builder.Register(context =>
-                {
-                    var registry = new PolicyRegistry();
-                    registry.Add(
-                        "HttpRetryPolicy",
-                        Policy.Handle<HttpRequestException>()
-                            .WaitAndRetryAsync(
-                                3, // number of retries
-                                retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)), // exponential backoff
-                                (exception, timeSpan, retryCount, executionContext) =>
-                                {
-                                    // add logging
-                                }));
-                    return registry;
-                }).As<IReadOnlyPolicyRegistry<string>>()
+            {
+                var registry = new PolicyRegistry();
+                registry.Add(
+                    "HttpRetryPolicy",
+                    Policy.Handle<HttpRequestException>()
+                        .WaitAndRetryAsync(
+                            3, // number of retries
+                            retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)), // exponential backoff
+                            (exception, timeSpan, retryCount, executionContext) =>
+                            {
+                                // add logging
+                            }));
+                return registry;
+            }).As<IReadOnlyPolicyRegistry<string>>()
                 .SingleInstance();
 
             Builder.RegisterType<JobService>().As<IJobService>().InstancePerLifetimeScope();
